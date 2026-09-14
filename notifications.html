@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Notifications</title><link rel="stylesheet" href="style.css">
+<style>.notification{background:#fff;border:1px solid #e5e8ef;border-radius:10px;padding:16px;margin:10px 0;display:flex;justify-content:space-between;gap:15px}.notification.unread{border-left:4px solid #1769e0}.notification small{color:#777}.mark{background:#1769e0;color:#fff;border:0;border-radius:6px;padding:7px 10px;cursor:pointer}</style>
+</head><body><div class="app"><aside class="sidebar"><div class="logo">🎓 Placement Portal</div><nav>
+<a href="index.html">🏠 Dashboard</a><a href="jobs.html">💼 Jobs</a><a href="applications.html">📋 My Applications</a><a href="profile.html">👤 My Profile</a><a href="notifications.html" class="active">🔔 Notifications</a><a href="javascript:void(0)" onclick="logout()">🚪 Logout</a>
+</nav></aside><main class="main"><header class="topbar"><h2>Placement Portal</h2><div class="user">👤<div><strong>Student_name</strong><small>CSE | 2026 Batch</small></div></div></header>
+<section class="content"><h1>Notifications</h1><p>Updates about your placement activities.</p><div id="notificationList"></div></section></main></div>
+<script src="script.js"></script><script>
+function renderN(){const box=document.getElementById("notificationList"),n=getJSON(STORE.notifications,[]);box.innerHTML=n.length?n.map(x=>`<div class="notification ${x.read?'':'unread'}"><div><strong>${esc(x.text)}</strong><br><small>${esc(x.time)}</small></div>${x.read?'':'<button class="mark" onclick="readN('+x.id+')">Mark read</button>'}</div>`).join(""):'<p>No notifications.</p>';}
+function readN(id){const n=getJSON(STORE.notifications,[]).map(x=>x.id===id?({...x,read:true}):x);setJSON(STORE.notifications,n);renderN();initNotifications();}
+document.addEventListener("DOMContentLoaded",renderN);
+</script></body></html>
